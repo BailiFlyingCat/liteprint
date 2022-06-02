@@ -7,3 +7,6 @@
 [submodule "libs/simpledib"]
 	path = libs/simpledib
 	url = git@github.com:tordex/simpledib.git
+[submodule "libs/litehtml"]
+	path = libs/litehtml
+	url = git@github.com:StupidTortoise/litehtml.git
