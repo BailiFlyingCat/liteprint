@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by litebrowser.rc
+// Used by liteprint.rc
 //
 #define IDC_MYICON                      2
 #define IDD_TESTHTML_DIALOG             102

@@ -27,9 +27,6 @@
     <ClCompile Include="HtmlViewWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="litebrowser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ToolbarWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,6 +48,9 @@
     <ClCompile Include="sl_edit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="liteprint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrowserWnd.h">
@@ -66,9 +66,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HtmlViewWnd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="litebrowser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
@@ -99,6 +96,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ctrl_container.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="liteprint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -145,7 +145,7 @@
     <Image Include="html\home-normal.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="litebrowser.ico">
+    <Image Include="liteprint.ico">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="html\reload-active.png">
@@ -174,7 +174,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="litebrowser.rc">
+    <ResourceCompile Include="liteprint.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

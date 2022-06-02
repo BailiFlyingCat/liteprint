@@ -36,7 +36,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{54AB6A6E-4B83-4B33-965F-DB8455C8C292}</ProjectGuid>
-    <RootNamespace>litebrowser</RootNamespace>
+    <RootNamespace>liteprint</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectName>liteprint</ProjectName>
   </PropertyGroup>
@@ -177,7 +177,7 @@
       <AdditionalDependencies>uxtheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>litebrowser.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <AdditionalManifestFiles>liteprint.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -204,7 +204,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>litebrowser64.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <AdditionalManifestFiles>liteprint64.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -234,7 +234,7 @@
       <AdditionalDependencies>uxtheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>litebrowser.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <AdditionalManifestFiles>liteprint.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -265,7 +265,7 @@
       <Profile>false</Profile>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>litebrowser64.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <AdditionalManifestFiles>liteprint64.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-UTF8|Win32'">
@@ -289,7 +289,7 @@
       <AdditionalDependencies>uxtheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>litebrowser.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <AdditionalManifestFiles>liteprint.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-UTF8|x64'">
@@ -316,7 +316,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>litebrowser64.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <AdditionalManifestFiles>liteprint64.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-UTF8|Win32'">
@@ -346,7 +346,7 @@
       <AdditionalDependencies>uxtheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>litebrowser.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <AdditionalManifestFiles>liteprint.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-UTF8|x64'">
@@ -377,7 +377,7 @@
       <Profile>false</Profile>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>litebrowser64.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <AdditionalManifestFiles>liteprint64.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -386,7 +386,7 @@
     <ClCompile Include="BrowserWnd.cpp" />
     <ClCompile Include="el_omnibox.cpp" />
     <ClCompile Include="HtmlViewWnd.cpp" />
-    <ClCompile Include="litebrowser.cpp" />
+    <ClCompile Include="liteprint.cpp" />
     <ClCompile Include="sl_edit.cpp" />
     <ClCompile Include="ToolbarWnd.cpp" />
     <ClCompile Include="tordexhttp.cpp" />
@@ -402,7 +402,7 @@
     <ClInclude Include="el_omnibox.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="HtmlViewWnd.h" />
-    <ClInclude Include="litebrowser.h" />
+    <ClInclude Include="liteprint.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="sl_edit.h" />
@@ -434,11 +434,11 @@
     <Image Include="html\settings-hover.png" />
     <Image Include="html\settings-normal.png" />
     <Image Include="html\toolbar-bg.png" />
-    <Image Include="litebrowser.ico" />
+    <Image Include="liteprint.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="litebrowser.rc" />
+    <ResourceCompile Include="liteprint.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\libs\litehtml\include\master.css" />

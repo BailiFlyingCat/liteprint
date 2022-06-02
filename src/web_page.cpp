@@ -7,7 +7,7 @@ web_page::web_page(CHTMLViewWnd* parent)
 {
 	m_refCount		= 1;
 	m_parent		= parent;
-	m_http.open(L"litebrowser/1.0", WINHTTP_ACCESS_TYPE_DEFAULT_PROXY, WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS);
+	m_http.open(L"liteprint/1.0", WINHTTP_ACCESS_TYPE_DEFAULT_PROXY, WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS);
 }
 
 web_page::~web_page()

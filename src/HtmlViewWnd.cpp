@@ -293,7 +293,7 @@ void CHTMLViewWnd::render(BOOL calc_time, BOOL do_redraw, int calc_repeat)
 			DWORD tic2 = GetTickCount();
 			WCHAR msg[255];
 			StringCchPrintf(msg, 255, L"Render time: %d msec", tic2 - tic1);
-			MessageBox(m_hWnd, msg, L"litebrowser", MB_ICONINFORMATION | MB_OK);
+			MessageBox(m_hWnd, msg, L"liteprint", MB_ICONINFORMATION | MB_OK);
 		} else
 		{
 			page->m_doc->render(width);
@@ -563,7 +563,7 @@ void CHTMLViewWnd::set_caption()
 
 	if(!page)
 	{
-		SetWindowText(GetParent(m_hWnd), L"litebrowser");
+		SetWindowText(GetParent(m_hWnd), L"liteprint");
 	} else
 	{
 		SetWindowText(GetParent(m_hWnd), page->m_caption.c_str());
