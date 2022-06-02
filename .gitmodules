@@ -1,6 +1,3 @@
-[submodule "libs/cairo"]
-	path = libs/cairo
-	url = git@github.com:tordex/cairo.git
 [submodule "libs/freeimage"]
 	path = libs/freeimage
 	url = git@github.com:tordex/freeimage.git
@@ -12,4 +9,4 @@
 	url = git@github.com:tordex/simpledib.git
 [submodule "libs/litehtml"]
 	path = libs/litehtml
-	url = git@github.com:tordex/litehtml.git
+	url = git@github.com:StupidTortoise/litehtml.git
