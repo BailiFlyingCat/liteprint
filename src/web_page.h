@@ -25,6 +25,7 @@ public:
 	virtual ~web_page();
 
 	void load(LPCWSTR url);
+	void load_from_str(LPCWSTR html_str);
 	// encoding: as specified in Content-Type HTTP header
 	//   it is NULL for local files or if Content-Type header is not present or Content-Type header doesn't contain "charset="
 	void on_document_loaded(LPCWSTR file, LPCWSTR encoding, LPCWSTR realUrl);
@@ -34,6 +35,10 @@ public:
 	void add_ref();
 	void release();
 	void get_url(std::wstring& url);
+
+	void output_debug_string(int value);
+	void output_debug_string(const char* str);
+	void output_debug_string(const wchar_t* str);
 
 	// litehtml::document_container members
 	virtual	void		set_caption(const litehtml::tchar_t* caption);

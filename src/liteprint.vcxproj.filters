@@ -51,6 +51,9 @@
     <ClCompile Include="liteprint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mongoose\mongoose.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrowserWnd.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="liteprint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mongoose\mongoose.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

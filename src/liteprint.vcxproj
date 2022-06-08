@@ -160,7 +160,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../libs/litehtml/include;../libs/litehtml/src;../libs/cairo/include;../libs/txdib;../libs/simpledib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;HTML_VIEW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -174,7 +174,7 @@
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <Profile>true</Profile>
-      <AdditionalDependencies>uxtheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;uxtheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>liteprint.exe.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
@@ -387,6 +387,7 @@
     <ClCompile Include="el_omnibox.cpp" />
     <ClCompile Include="HtmlViewWnd.cpp" />
     <ClCompile Include="liteprint.cpp" />
+    <ClCompile Include="mongoose\mongoose.c" />
     <ClCompile Include="sl_edit.cpp" />
     <ClCompile Include="ToolbarWnd.cpp" />
     <ClCompile Include="tordexhttp.cpp" />
@@ -403,6 +404,7 @@
     <ClInclude Include="globals.h" />
     <ClInclude Include="HtmlViewWnd.h" />
     <ClInclude Include="liteprint.h" />
+    <ClInclude Include="mongoose\mongoose.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="sl_edit.h" />

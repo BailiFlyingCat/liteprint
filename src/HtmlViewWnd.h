@@ -25,12 +25,17 @@ class CHTMLViewWnd
 	CRITICAL_SECTION			m_sync;
 	simpledib::dib				m_dib;
 	CBrowserWnd*				m_parent;
+
+	int							m_viewWidth;
+	int							m_viewHeight;
+	int							m_htmlHeight;
+	HDC							m_printHdc;
 public:
 	CHTMLViewWnd(HINSTANCE	hInst, litehtml::context* ctx, CBrowserWnd* parent);
 	virtual ~CHTMLViewWnd(void);
 
 	void				create(int x, int y, int width, int height, HWND parent);
-	void				open(LPCWSTR url, bool reload = FALSE);
+	void				open(LPCWSTR url, bool reload = FALSE, bool isws = FALSE);
 	HWND				wnd()	{ return m_hWnd;	}
 	void				refresh();
 	void				back();
@@ -48,9 +53,14 @@ public:
 	void				show_hash(std::wstring& hash);
 	void				update_history();
 
+	void				set_print(int viewWidth, int viewHeight, HDC printHdc);
+	virtual void		page_loaded(bool isdraw = true);
+	virtual void		image_loaded(bool redraw_only);
+	virtual void		draw_to_print(int left, int top, int hdcWidth, int hdcHeight, double scale);
+
 protected:
 	virtual void		OnCreate();
-	virtual void		OnPaint(simpledib::dib* dib, LPRECT rcDraw);
+	virtual void		OnPaint();
 	virtual void		OnSize(int width, int height);
 	virtual void		OnDestroy();
 	virtual void		OnVScroll(int pos, int flags);
@@ -61,14 +71,15 @@ protected:
 	virtual void		OnLButtonDown(int x, int y);
 	virtual void		OnLButtonUp(int x, int y);
 	virtual void		OnMouseLeave();
-	virtual void		OnPageReady();
+	virtual void		OnPageReady(bool isdraw = true);
+	virtual void		OnImageLoaded(bool redraw_only);
 	
 	void				redraw(LPRECT rcDraw, BOOL update);
 	void				update_scroll();
 	void				update_cursor();
 	void				create_dib(int width, int height);
 	void				scroll_to(int new_left, int new_top);
-	
+	void				draw(simpledib::dib* dib, LPRECT rcDraw, double scale = 1.0);	
 
 private:
 	static LRESULT	CALLBACK WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam);

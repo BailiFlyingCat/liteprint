@@ -5,6 +5,7 @@
 #define GDIPVER	0x0110
 
 #include "targetver.h"
+#include <winsock2.h>
 #include <windows.h>
 #include <stdlib.h>
 #include <malloc.h>

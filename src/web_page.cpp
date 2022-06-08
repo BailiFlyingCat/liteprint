@@ -227,6 +227,25 @@ void web_page::load( LPCWSTR url )
 	}
 }
 
+void web_page::load_from_str(LPCWSTR html_str)
+{
+	int size = WideCharToMultiByte(CP_UTF8, 0, html_str, -1, NULL, 0, NULL, NULL);
+	char* html_text = new char[size];
+	memset(html_text, 0, size);
+	int ret = WideCharToMultiByte(CP_UTF8, 0, html_str, -1, html_text, size, NULL, NULL);
+	if (!ret)
+	{
+		LPCSTR txt = "<h1>Something Wrong</h1>";
+		html_text = new char[lstrlenA(txt) + 1];
+		lstrcpyA(html_text, txt);
+	}
+	m_doc = litehtml::document::createFromUTF8(html_text, this, m_parent->get_html_context());
+	delete[] html_text;
+	delete[] html_str;
+
+	m_parent->page_loaded(false);
+}
+
 void web_page::on_document_loaded(LPCWSTR file, LPCWSTR encoding, LPCWSTR realUrl)
 {
 	if (realUrl)
@@ -246,7 +265,7 @@ void web_page::on_document_loaded(LPCWSTR file, LPCWSTR encoding, LPCWSTR realUr
 	m_doc = litehtml::document::createFromUTF8(html_text, this, m_parent->get_html_context());
 	delete html_text;
 
-	PostMessage(m_parent->wnd(), WM_PAGE_LOADED, 0, 0);
+	m_parent->page_loaded();
 }
 
 LPWSTR web_page::load_text_file(LPCWSTR path, bool is_html, LPCWSTR defEncoding, LPCWSTR forceEncoding)
@@ -289,7 +308,7 @@ void web_page::on_document_error(DWORD dwError, LPCWSTR errMsg)
 	m_doc = litehtml::document::createFromString(txt.c_str(), this, m_parent->get_html_context());
 #endif
 
-	PostMessage(m_parent->wnd(), WM_PAGE_LOADED, 0, 0);
+	m_parent->page_loaded();
 }
 
 void web_page::on_image_loaded( LPCWSTR file, LPCWSTR url, bool redraw_only )
@@ -300,7 +319,7 @@ void web_page::on_image_loaded( LPCWSTR file, LPCWSTR url, bool redraw_only )
 		cairo_container::add_image(std::wstring(url), img);
 		if(m_doc)
 		{
-			PostMessage(m_parent->wnd(), WM_IMAGE_LOADED, (WPARAM) (redraw_only ? 1 : 0), 0);
+			m_parent->image_loaded(redraw_only);
 		}
 	}
 }
@@ -486,6 +505,25 @@ char* web_page::load_utf8_file(LPCWSTR path, bool is_html, LPCWSTR defEncoding, 
 	}
 
 	return ret;
+}
+
+void web_page::output_debug_string(int value)
+{
+	char szBuff[1024];
+	memset(szBuff, 0, 1024);
+	char* str = "%d";
+	sprintf(szBuff, str, value);
+	OutputDebugStringA(szBuff);
+}
+
+void web_page::output_debug_string(const char* str)
+{
+	OutputDebugStringA(str);
+}
+
+void web_page::output_debug_string(const wchar_t* str)
+{
+	OutputDebugStringW(str);
 }
 
 //////////////////////////////////////////////////////////////////////////
