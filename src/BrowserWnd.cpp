@@ -76,7 +76,7 @@ CBrowserWnd::CBrowserWnd(HINSTANCE hInst)
 	if(css)
 	{
 		m_browser_context.load_master_stylesheet(css);
-		delete css;
+		delete[] css;
 	}
 }
 
@@ -377,7 +377,8 @@ void CBrowserWnd::wsfn(struct mg_connection* mc, int ev, void* ev_data, void* fn
 		LPWSTR html_str = new WCHAR[length + 1];
 		MultiByteToWideChar(CP_UTF8, 0, wm->data.ptr, -1, html_str, length + 1);
 
-		// mg_ws_send(mc, wm->data.ptr, wm->data.len, WEBSOCKET_OP_TEXT);
+		char* strRet = "OK";
+		mg_ws_send(mc, strRet, strlen(strRet), WEBSOCKET_OP_TEXT);
 
 		CBrowserWnd* pThis = NULL;
 		HWND hWnd = (HWND)fn_data;
@@ -397,7 +398,7 @@ void CBrowserWnd::wsfn(struct mg_connection* mc, int ev, void* ev_data, void* fn
 
 void CBrowserWnd::initDefaultPrinter()
 {
-	DWORD length;
+	DWORD length = 0;
 	GetDefaultPrinter(NULL, &length);
 	if (length)
 	{
@@ -414,11 +415,11 @@ void CBrowserWnd::initDefaultPrinter()
 			{
 				return;
 			}
-			m_printViewWidth = GetDeviceCaps(m_printHdc, HORZSIZE);
-			m_printViewHeight = GetDeviceCaps(m_printHdc, VERTSIZE);
-			m_printPixelWidth = GetDeviceCaps(m_printHdc, HORZRES);
+			m_printViewWidth   = GetDeviceCaps(m_printHdc, HORZSIZE);
+			m_printViewHeight  = GetDeviceCaps(m_printHdc, VERTSIZE);
+			m_printPixelWidth  = GetDeviceCaps(m_printHdc, HORZRES);
 			m_printPixelHeight = GetDeviceCaps(m_printHdc, VERTRES);
-			m_scale = GetDeviceCaps(m_printHdc, LOGPIXELSX);
+			m_scale            = GetDeviceCaps(m_printHdc, LOGPIXELSX);
 
 			HDC hdc = GetDC(NULL);
 			int logPixel = GetDeviceCaps(hdc, LOGPIXELSX);
