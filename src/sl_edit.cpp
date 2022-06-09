@@ -395,9 +395,12 @@ void CSingleLineEditCtrl::draw(litehtml::uint_ptr cr)
 		int caretHeight = m_lineHeight;
 		int top = m_rcText.top + (m_rcText.bottom - rcText.top) / 2 - caretHeight / 2;
 
-		Gdiplus::Graphics graphics((HDC)cr);
-		Gdiplus::SolidBrush brush(Gdiplus::Color(m_textColor.alpha, m_textColor.red, m_textColor.green, m_textColor.blue));
-		graphics.FillRectangle(&brush, m_rcText.left + m_caretX, top, caretWidth, caretHeight);
+		Gdiplus::Graphics* graphics = (Gdiplus::Graphics *)cr;
+		if (graphics)
+		{
+			Gdiplus::SolidBrush brush(Gdiplus::Color(m_textColor.alpha, m_textColor.red, m_textColor.green, m_textColor.blue));
+			graphics->FillRectangle(&brush, m_rcText.left + m_caretX, top, caretWidth, caretHeight);
+		}
 	}
 }
 
@@ -514,9 +517,12 @@ void CSingleLineEditCtrl::fillSelRect(litehtml::uint_ptr cr, LPRECT rcFill)
 	COLORREF clr = GetSysColor(COLOR_HIGHLIGHT);
 	litehtml::web_color color(GetRValue(clr), GetGValue(clr), GetBValue(clr));
 
-	Gdiplus::Graphics graphics((HDC)cr);
-	Gdiplus::SolidBrush brush(Gdiplus::Color(color.alpha, color.red, color.green, color.blue));
-	graphics.FillRectangle(&brush, rcFill->left, rcFill->top, rcFill->right - rcFill->left, rcFill->bottom - rcFill->top);
+	Gdiplus::Graphics* graphics = (Gdiplus::Graphics*)cr;
+	if (graphics)
+	{
+		Gdiplus::SolidBrush brush(Gdiplus::Color(color.alpha, color.red, color.green, color.blue));
+		graphics->FillRectangle(&brush, rcFill->left, rcFill->top, rcFill->right - rcFill->left, rcFill->bottom - rcFill->top);
+	}
 }
 
 int CSingleLineEditCtrl::getCaretPosXY( int x, int y )

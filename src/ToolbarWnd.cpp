@@ -41,15 +41,15 @@ CToolbarWnd::CToolbarWnd( HINSTANCE hInst, CBrowserWnd* parent )
 }
 CToolbarWnd::~CToolbarWnd(void)
 {
-	if (m_graphics)
-	{
-		delete m_graphics;
-		m_graphics = nullptr;
-	}
-
 	if (m_omnibox)
 	{
 		m_omnibox = nullptr;
+	}
+
+	if (m_hWnd && m_graphics)
+	{
+		delete m_graphics;
+		m_graphics = nullptr;
 	}
 }
 
