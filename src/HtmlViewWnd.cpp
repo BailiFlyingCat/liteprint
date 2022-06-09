@@ -929,14 +929,14 @@ void CHTMLViewWnd::create_dib( int width, int height )
 
 void CHTMLViewWnd::scroll_to( int new_left, int new_top )
 {
-	// è®¾ç½®æ°´å¹³æ»šåŠ¨æ¡
+	// ÉèÖÃË®Æ½¹ö¶¯Ìõ
 	if(new_left != m_left)
 	{
 		m_left = new_left;
 		SetScrollPos(m_hWnd, SB_HORZ, m_left, TRUE);
 	}
 
-	// ç›´æ¥é‡ç»˜æ•´ä¸ªçª—å£åŒºåŸŸ
+	// Ö±½ÓÖØ»æÕû¸ö´°¿ÚÇøÓò
 	m_top = new_top;
 	redraw(NULL, TRUE);
 }
