@@ -312,7 +312,7 @@ void gdiplus_container::draw_background( litehtml::uint_ptr hdc, const litehtml:
 		int img_width  = bgbmp->GetWidth();
 		int img_height = bgbmp->GetHeight();
 
-		output_debug_string("draw_background(");
+		/* output_debug_string("draw_background(");
 		output_debug_string(url.c_str());
 		output_debug_string(")-> draw_pos: ");
 		output_debug_string(draw_pos.left());
@@ -326,7 +326,7 @@ void gdiplus_container::draw_background( litehtml::uint_ptr hdc, const litehtml:
 		output_debug_string(img_width);
 		output_debug_string(",");
 		output_debug_string(img_height);
-		output_debug_string("\n");
+		output_debug_string("\n"); */
 
 		Gdiplus::Graphics* graphics = (Gdiplus::Graphics*)hdc;
 		graphics->SetInterpolationMode(Gdiplus::InterpolationModeNearestNeighbor);
