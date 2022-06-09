@@ -48,7 +48,7 @@ CToolbarWnd::~CToolbarWnd(void)
 
 	if (m_hWnd && m_hdc)
 	{
-		DeleteDC(m_hdc);
+		ReleaseDC(m_hWnd, m_hdc);
 		m_hdc = nullptr;
 	}
 }
@@ -125,7 +125,7 @@ LRESULT CALLBACK CToolbarWnd::WndProc( HWND hWnd, UINT uMessage, WPARAM wParam, 
 
 				dib.beginPaint(hdc, &ps.rcPaint);
 				pThis->OnPaint(&dib, &ps.rcPaint);
-				dib.endPaint();
+				dib.endPaint(true);
 
 				EndPaint(hWnd, &ps);
 			}
