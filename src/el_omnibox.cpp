@@ -80,7 +80,7 @@ std::wstring el_omnibox::get_url()
 	{
 		DWORD sz = (DWORD) str.length() + 32;
 		LPWSTR outUrl = new WCHAR[sz];
-		HRESULT res = UrlApplyScheme(str.c_str(), outUrl, &sz, URL_APPLY_DEFAULT);
+		HRESULT res = UrlApplyScheme(str.c_str(), outUrl, &sz, URL_APPLY_FORCEAPPLY);
 		if (res == E_POINTER)
 		{
 			delete outUrl;
