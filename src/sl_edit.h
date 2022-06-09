@@ -1,6 +1,6 @@
 #pragma once
 #include "TxThread.h"
-#include "gdiplus_container.h"
+#include "../containers/gdiplus/gdiplus_container.h"
 
 
 #define WM_UPDATE_CONTROL	(WM_USER + 2001)

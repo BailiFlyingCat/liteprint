@@ -17,7 +17,7 @@ CToolbarWnd::CToolbarWnd( HINSTANCE hInst, CBrowserWnd* parent )
 	m_parent	= parent;
 	m_hInst		= hInst;
 	m_hWnd		= NULL;
-	m_graphics  = nullptr;
+	m_hdc       = nullptr;
 
 	WNDCLASS wc;
 	if(!GetClassInfo(m_hInst, TOOLBARWND_CLASS, &wc))
@@ -46,10 +46,10 @@ CToolbarWnd::~CToolbarWnd(void)
 		m_omnibox = nullptr;
 	}
 
-	if (m_hWnd && m_graphics)
+	if (m_hWnd && m_hdc)
 	{
-		delete m_graphics;
-		m_graphics = nullptr;
+		DeleteDC(m_hdc);
+		m_hdc = nullptr;
 	}
 }
 
@@ -246,11 +246,10 @@ void CToolbarWnd::OnPaint( simpledib::dib* dib, LPRECT rcDraw )
 		{
 			SetWindowOrgEx(hdc, pt.x, pt.y, NULL);
 		}
-		m_graphics = new Gdiplus::Graphics(hdc);
-		m_graphics->Clear(Gdiplus::Color::White);
+		FillRect(hdc, rcDraw, WHITE_BRUSH);
 
 		litehtml::position clip(rcDraw->left, rcDraw->top, rcDraw->right - rcDraw->left, rcDraw->bottom - rcDraw->top);
-		m_doc->draw((litehtml::uint_ptr)(m_graphics), 0, 0, &clip);
+		m_doc->draw((litehtml::uint_ptr)hdc, 0, 0, &clip);
 	}
 }
 
@@ -616,6 +615,20 @@ std::shared_ptr<litehtml::element> CToolbarWnd::create_element(const litehtml::t
 	return 0;
 }
 
+litehtml::uint_ptr CToolbarWnd::getHdc()
+{
+	if (m_hWnd && !m_hdc)
+	{
+		m_hdc = GetDC(m_hWnd);
+	}
+	else
+	{
+		m_hdc = GetDC(NULL);
+	}
+
+	return (litehtml::uint_ptr)m_hdc;
+}
+
 void CToolbarWnd::import_css(litehtml::tstring& text, const litehtml::tstring& url, litehtml::tstring& baseurl)
 {
 
@@ -629,23 +642,4 @@ void CToolbarWnd::get_client_rect( litehtml::position& client ) const
 	client.y		= rcClient.top;
 	client.width	= rcClient.right - rcClient.left;
 	client.height	= rcClient.bottom - rcClient.top;
-}
-
-void CToolbarWnd::output_debug_string(int value)
-{
-	char szBuff[1024];
-	memset(szBuff, 0, 1024);
-	char* str = "%d";
-	sprintf(szBuff, str, value);
-	OutputDebugStringA(szBuff);
-}
-
-void CToolbarWnd::output_debug_string(const char* str)
-{
-	OutputDebugStringA(str);
-}
-
-void CToolbarWnd::output_debug_string(const wchar_t* str)
-{
-	OutputDebugStringW(str);
 }

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "gdiplus_container.h"
+#include "mygdiplus_container.h"
 #include "tordexhttp.h"
 
 class CHTMLViewWnd;
 
-class web_page :	public gdiplus_container
+class web_page :	public mygdiplus_container
 {
 	CHTMLViewWnd*				m_parent;
 	LONG						m_refCount;

@@ -381,9 +381,11 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\libs\litehtml\containers\gdiplus\gdiplus_container.cpp" />
+    <ClCompile Include="..\libs\litehtml\containers\win32\win32_container.cpp" />
     <ClCompile Include="BrowserWnd.cpp" />
     <ClCompile Include="el_omnibox.cpp" />
-    <ClCompile Include="gdiplus_container.cpp" />
+    <ClCompile Include="mygdiplus_container.cpp" />
     <ClCompile Include="HtmlViewWnd.cpp" />
     <ClCompile Include="liteprint.cpp" />
     <ClCompile Include="mongoose\mongoose.c" />
@@ -395,10 +397,12 @@
     <ClCompile Include="web_page.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\libs\litehtml\containers\gdiplus\gdiplus_container.h" />
+    <ClInclude Include="..\libs\litehtml\containers\win32\win32_container.h" />
     <ClInclude Include="BrowserWnd.h" />
     <ClInclude Include="ctrl_container.h" />
     <ClInclude Include="el_omnibox.h" />
-    <ClInclude Include="gdiplus_container.h" />
+    <ClInclude Include="mygdiplus_container.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="HtmlViewWnd.h" />
     <ClInclude Include="liteprint.h" />

@@ -36,7 +36,7 @@ struct gdiplus_clip_box
 	}
 };
 
-class gdiplus_container :	public litehtml::document_container
+class mygdiplus_container :	public litehtml::document_container
 {
 public:
 	typedef std::map<std::wstring, litehtml::uint_ptr>	images_map;
@@ -51,8 +51,8 @@ private:
 	Gdiplus::Font*				m_font;
 
 public:
-	gdiplus_container(void);
-	virtual ~gdiplus_container(void);
+	mygdiplus_container(void);
+	virtual ~mygdiplus_container(void);
 
 	virtual litehtml::uint_ptr			create_font(const litehtml::tchar_t* faceName, int size, int weight, litehtml::font_style italic, unsigned int decoration, litehtml::font_metrics* fm) override;
 	virtual void						delete_font(litehtml::uint_ptr hFont) override;

@@ -1,8 +1,8 @@
-#include "gdiplus_container.h"
+#include "mygdiplus_container.h"
 #include <strsafe.h>
 #include <cmath>
 
-gdiplus_container::gdiplus_container(void)
+mygdiplus_container::mygdiplus_container(void)
 {
 	m_fontFamily	= NULL;
 	m_font			= NULL;
@@ -10,7 +10,7 @@ gdiplus_container::gdiplus_container(void)
 	InitializeCriticalSection(&m_img_sync);
 }
 
-gdiplus_container::~gdiplus_container(void)
+mygdiplus_container::~mygdiplus_container(void)
 {
 	clear_images();
 	DeleteCriticalSection(&m_img_sync);
@@ -25,7 +25,7 @@ gdiplus_container::~gdiplus_container(void)
 	}
 }
 
-litehtml::uint_ptr gdiplus_container::create_font( const litehtml::tchar_t* faceName, int size, int weight, litehtml::font_style italic, unsigned int decoration, litehtml::font_metrics* fm )
+litehtml::uint_ptr mygdiplus_container::create_font( const litehtml::tchar_t* faceName, int size, int weight, litehtml::font_style italic, unsigned int decoration, litehtml::font_metrics* fm )
 {
 	std::wstring fnt_name = L"sans-serif";
 
@@ -120,7 +120,7 @@ litehtml::uint_ptr gdiplus_container::create_font( const litehtml::tchar_t* face
 	return (litehtml::uint_ptr)(m_font);
 }
 
-void gdiplus_container::delete_font( litehtml::uint_ptr hFont )
+void mygdiplus_container::delete_font( litehtml::uint_ptr hFont )
 {
 	if (m_font)
 	{
@@ -134,7 +134,7 @@ void gdiplus_container::delete_font( litehtml::uint_ptr hFont )
 	}
 }
 
-int gdiplus_container::text_width( const litehtml::tchar_t* text, litehtml::uint_ptr hFont )
+int mygdiplus_container::text_width( const litehtml::tchar_t* text, litehtml::uint_ptr hFont )
 {
 	if (!hFont || wcslen(text) <= 0)
 	{
@@ -184,7 +184,7 @@ int gdiplus_container::text_width( const litehtml::tchar_t* text, litehtml::uint
 	return ret;
 }
 
-void gdiplus_container::draw_text( litehtml::uint_ptr hdc, const litehtml::tchar_t* text, litehtml::uint_ptr hFont, litehtml::web_color color, const litehtml::position& pos )
+void mygdiplus_container::draw_text( litehtml::uint_ptr hdc, const litehtml::tchar_t* text, litehtml::uint_ptr hFont, litehtml::web_color color, const litehtml::position& pos )
 {
 	if (!hdc || !hFont)
 	{
@@ -209,7 +209,7 @@ void gdiplus_container::draw_text( litehtml::uint_ptr hdc, const litehtml::tchar
 	graphics->DrawString(text, -1, font, pointF, Gdiplus::StringFormat::GenericTypographic(), &solidBrush);
 }
 
-int gdiplus_container::pt_to_px( int pt ) const
+int mygdiplus_container::pt_to_px( int pt ) const
 {
 	HDC dc = GetDC(NULL);
 	int ret = MulDiv(pt, GetDeviceCaps(dc, LOGPIXELSY), 72);
@@ -217,12 +217,12 @@ int gdiplus_container::pt_to_px( int pt ) const
 	return ret;
 }
 
-int gdiplus_container::get_default_font_size() const
+int mygdiplus_container::get_default_font_size() const
 {
 	return 16;
 }
 
-void gdiplus_container::draw_list_marker( litehtml::uint_ptr hdc, const litehtml::list_marker& marker )
+void mygdiplus_container::draw_list_marker( litehtml::uint_ptr hdc, const litehtml::list_marker& marker )
 {
 	apply_clip(hdc);
 
@@ -257,7 +257,7 @@ void gdiplus_container::draw_list_marker( litehtml::uint_ptr hdc, const litehtml
 	release_clip(hdc);
 }
 
-void gdiplus_container::load_image( const litehtml::tchar_t* src, const litehtml::tchar_t* baseurl, bool redraw_on_ready )
+void mygdiplus_container::load_image( const litehtml::tchar_t* src, const litehtml::tchar_t* baseurl, bool redraw_on_ready )
 {
 	std::wstring url;
 	t_make_url(src, baseurl, url);
@@ -275,7 +275,7 @@ void gdiplus_container::load_image( const litehtml::tchar_t* src, const litehtml
 	}
 }
 
-void gdiplus_container::get_image_size( const litehtml::tchar_t* src, const litehtml::tchar_t* baseurl, litehtml::size& sz )
+void mygdiplus_container::get_image_size( const litehtml::tchar_t* src, const litehtml::tchar_t* baseurl, litehtml::size& sz )
 {
 	std::wstring url;
 	t_make_url(src, baseurl, url);
@@ -297,7 +297,7 @@ void gdiplus_container::get_image_size( const litehtml::tchar_t* src, const lite
 	unlock_images_cache();
 }
 
-void gdiplus_container::draw_image( litehtml::uint_ptr hdc, const litehtml::tchar_t* src, const litehtml::tchar_t* baseurl, const litehtml::position& pos )
+void mygdiplus_container::draw_image( litehtml::uint_ptr hdc, const litehtml::tchar_t* src, const litehtml::tchar_t* baseurl, const litehtml::position& pos )
 {
 	apply_clip(hdc);
 
@@ -322,7 +322,7 @@ void gdiplus_container::draw_image( litehtml::uint_ptr hdc, const litehtml::tcha
 	release_clip(hdc);
 }
 
-void gdiplus_container::draw_background( litehtml::uint_ptr hdc, const litehtml::background_paint& bg )
+void mygdiplus_container::draw_background( litehtml::uint_ptr hdc, const litehtml::background_paint& bg )
 {
 	apply_clip(hdc);
 
@@ -422,7 +422,7 @@ void gdiplus_container::draw_background( litehtml::uint_ptr hdc, const litehtml:
 	release_clip(hdc);
 }
 
-void gdiplus_container::draw_borders( litehtml::uint_ptr hdc, const litehtml::borders& borders, const litehtml::position& draw_pos, bool root )
+void mygdiplus_container::draw_borders( litehtml::uint_ptr hdc, const litehtml::borders& borders, const litehtml::position& draw_pos, bool root )
 {
 	if (!hdc)
 	{
@@ -500,7 +500,7 @@ void gdiplus_container::draw_borders( litehtml::uint_ptr hdc, const litehtml::bo
 }
 
 
-void gdiplus_container::fill_rect(litehtml::uint_ptr hdc, int x, int y, int width, int height, const litehtml::web_color& color)
+void mygdiplus_container::fill_rect(litehtml::uint_ptr hdc, int x, int y, int width, int height, const litehtml::web_color& color)
 {
 	if (!hdc)
 	{
@@ -513,7 +513,7 @@ void gdiplus_container::fill_rect(litehtml::uint_ptr hdc, int x, int y, int widt
 }
 
 
-void gdiplus_container::set_clip(const litehtml::position& pos, const litehtml::border_radiuses& bdr_radius, bool valid_x, bool valid_y)
+void mygdiplus_container::set_clip(const litehtml::position& pos, const litehtml::border_radiuses& bdr_radius, bool valid_x, bool valid_y)
 {
 	litehtml::position clip_pos = pos;
 	litehtml::position client_pos;
@@ -531,7 +531,7 @@ void gdiplus_container::set_clip(const litehtml::position& pos, const litehtml::
 	m_clips.emplace_back(clip_pos, bdr_radius);
 }
 
-void gdiplus_container::del_clip()
+void mygdiplus_container::del_clip()
 {
 	if(!m_clips.empty())
 	{
@@ -539,7 +539,7 @@ void gdiplus_container::del_clip()
 	}
 }
 
-void gdiplus_container::apply_clip(litehtml::uint_ptr hdc)
+void mygdiplus_container::apply_clip(litehtml::uint_ptr hdc)
 {
 	if (!hdc)
 	{
@@ -554,7 +554,7 @@ void gdiplus_container::apply_clip(litehtml::uint_ptr hdc)
 	}
 }
 
-void gdiplus_container::release_clip(litehtml::uint_ptr hdc)
+void mygdiplus_container::release_clip(litehtml::uint_ptr hdc)
 {
 	if (!hdc)
 	{
@@ -564,7 +564,7 @@ void gdiplus_container::release_clip(litehtml::uint_ptr hdc)
 	graphics->ResetClip();
 }
 
-void gdiplus_container::draw_ellipse(litehtml::uint_ptr hdc, int x, int y, int width, int height, const litehtml::web_color& color, double line_width)
+void mygdiplus_container::draw_ellipse(litehtml::uint_ptr hdc, int x, int y, int width, int height, const litehtml::web_color& color, double line_width)
 {
 	if (!hdc)
 	{
@@ -579,7 +579,7 @@ void gdiplus_container::draw_ellipse(litehtml::uint_ptr hdc, int x, int y, int w
 	graphics->DrawEllipse(&pen, x, y, width, height);
 }
 
-void gdiplus_container::fill_ellipse(litehtml::uint_ptr hdc, int x, int y, int width, int height, const litehtml::web_color& color )
+void mygdiplus_container::fill_ellipse(litehtml::uint_ptr hdc, int x, int y, int width, int height, const litehtml::web_color& color )
 {
 	if (!hdc)
 	{
@@ -594,19 +594,19 @@ void gdiplus_container::fill_ellipse(litehtml::uint_ptr hdc, int x, int y, int w
 	graphics->FillEllipse(&brush, x, y, width, height);
 }
 
-void gdiplus_container::clear_images()
+void mygdiplus_container::clear_images()
 {
 	lock_images_cache();
 	m_images.clear();
 	unlock_images_cache();
 }
 
-const litehtml::tchar_t* gdiplus_container::get_default_font_name() const
+const litehtml::tchar_t* mygdiplus_container::get_default_font_name() const
 {
 	return _t("Times New Roman");
 }
 
-void gdiplus_container::remove_image( std::wstring& url )
+void mygdiplus_container::remove_image( std::wstring& url )
 {
 	lock_images_cache();
 	images_map::iterator i = m_images.find(url);
@@ -617,7 +617,7 @@ void gdiplus_container::remove_image( std::wstring& url )
 	unlock_images_cache();
 }
 
-void gdiplus_container::add_image(std::wstring& url, litehtml::uint_ptr& img)
+void mygdiplus_container::add_image(std::wstring& url, litehtml::uint_ptr& img)
 {
 	lock_images_cache();
 	images_map::iterator i = m_images.find(url);
@@ -634,22 +634,22 @@ void gdiplus_container::add_image(std::wstring& url, litehtml::uint_ptr& img)
 	unlock_images_cache();
 }
 
-void gdiplus_container::lock_images_cache()
+void mygdiplus_container::lock_images_cache()
 {
 	EnterCriticalSection(&m_img_sync);
 }
 
-void gdiplus_container::unlock_images_cache()
+void mygdiplus_container::unlock_images_cache()
 {
 	LeaveCriticalSection(&m_img_sync);
 }
 
-std::shared_ptr<litehtml::element> gdiplus_container::create_element(const litehtml::tchar_t* tag_name, const litehtml::string_map& attributes, const std::shared_ptr<litehtml::document>& doc)
+std::shared_ptr<litehtml::element> mygdiplus_container::create_element(const litehtml::tchar_t* tag_name, const litehtml::string_map& attributes, const std::shared_ptr<litehtml::document>& doc)
 {
 	return 0;
 }
 
-void gdiplus_container::get_media_features(litehtml::media_features& media)  const
+void mygdiplus_container::get_media_features(litehtml::media_features& media)  const
 {
 	litehtml::position client;
 	get_client_rect(client);
@@ -668,18 +668,18 @@ void gdiplus_container::get_media_features(litehtml::media_features& media)  con
 	ReleaseDC(NULL, hdc);
 }
 
-void gdiplus_container::get_language(litehtml::tstring& language, litehtml::tstring & culture) const
+void mygdiplus_container::get_language(litehtml::tstring& language, litehtml::tstring & culture) const
 {
 	language = _t("en");
 	culture = _t("");
 }
 
-void gdiplus_container::make_url_utf8( const char* url, const char* basepath, std::wstring& out )
+void mygdiplus_container::make_url_utf8( const char* url, const char* basepath, std::wstring& out )
 {
 
 }
 
-void gdiplus_container::transform_text( litehtml::tstring& text, litehtml::text_transform tt )
+void mygdiplus_container::transform_text( litehtml::tstring& text, litehtml::text_transform tt )
 {
 	if(text.empty()) return;
 
@@ -726,11 +726,11 @@ void gdiplus_container::transform_text( litehtml::tstring& text, litehtml::text_
 #endif
 }
 
-void gdiplus_container::link(const std::shared_ptr<litehtml::document>& doc, const litehtml::element::ptr& el)
+void mygdiplus_container::link(const std::shared_ptr<litehtml::document>& doc, const litehtml::element::ptr& el)
 {
 }
 
-litehtml::tstring gdiplus_container::resolve_color(const litehtml::tstring& color) const
+litehtml::tstring mygdiplus_container::resolve_color(const litehtml::tstring& color) const
 {
 	struct custom_color
 	{

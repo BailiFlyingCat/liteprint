@@ -320,7 +320,7 @@ void web_page::on_image_loaded( LPCWSTR file, LPCWSTR url, bool redraw_only )
 	if (bitmap)
 	{
 		litehtml::uint_ptr img = (litehtml::uint_ptr)bitmap;
-		gdiplus_container::add_image(std::wstring(url), img);
+		add_image(std::wstring(url), img);
 		if (m_doc)
 		{
 			m_parent->image_loaded(redraw_only);

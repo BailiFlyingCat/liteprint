@@ -48,7 +48,13 @@
     <ClCompile Include="mongoose\mongoose.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gdiplus_container.cpp">
+    <ClCompile Include="mygdiplus_container.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\litehtml\containers\gdiplus\gdiplus_container.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\litehtml\containers\win32\win32_container.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,7 +104,13 @@
     <ClInclude Include="mongoose\mongoose.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gdiplus_container.h">
+    <ClInclude Include="mygdiplus_container.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libs\litehtml\containers\win32\win32_container.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libs\litehtml\containers\gdiplus\gdiplus_container.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

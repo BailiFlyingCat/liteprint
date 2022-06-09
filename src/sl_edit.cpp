@@ -395,11 +395,11 @@ void CSingleLineEditCtrl::draw(litehtml::uint_ptr cr)
 		int caretHeight = m_lineHeight;
 		int top = m_rcText.top + (m_rcText.bottom - rcText.top) / 2 - caretHeight / 2;
 
-		Gdiplus::Graphics* graphics = (Gdiplus::Graphics *)cr;
-		if (graphics)
+		if (cr)
 		{
+			Gdiplus::Graphics graphics((HDC)cr);
 			Gdiplus::SolidBrush brush(Gdiplus::Color(m_textColor.alpha, m_textColor.red, m_textColor.green, m_textColor.blue));
-			graphics->FillRectangle(&brush, m_rcText.left + m_caretX, top, caretWidth, caretHeight);
+			graphics.FillRectangle(&brush, m_rcText.left + m_caretX, top, caretWidth, caretHeight);
 		}
 	}
 }
@@ -408,7 +408,7 @@ void CSingleLineEditCtrl::setFont(litehtml::uint_ptr font, litehtml::web_color& 
 {
 	m_hFont     = font;
 	m_textColor = color;
-	m_lineHeight = ceil(((Gdiplus::Font*)font)->GetHeight(0.0f));
+	m_lineHeight = m_container->line_height(m_container->getHdc(), (litehtml::uint_ptr)font);
 }
 
 void CSingleLineEditCtrl::UpdateCarret()
@@ -517,11 +517,11 @@ void CSingleLineEditCtrl::fillSelRect(litehtml::uint_ptr cr, LPRECT rcFill)
 	COLORREF clr = GetSysColor(COLOR_HIGHLIGHT);
 	litehtml::web_color color(GetRValue(clr), GetGValue(clr), GetBValue(clr));
 
-	Gdiplus::Graphics* graphics = (Gdiplus::Graphics*)cr;
-	if (graphics)
+	if (cr)
 	{
+		Gdiplus::Graphics graphics((HDC)cr);
 		Gdiplus::SolidBrush brush(Gdiplus::Color(color.alpha, color.red, color.green, color.blue));
-		graphics->FillRectangle(&brush, rcFill->left, rcFill->top, rcFill->right - rcFill->left, rcFill->bottom - rcFill->top);
+		graphics.FillRectangle(&brush, rcFill->left, rcFill->top, rcFill->right - rcFill->left, rcFill->bottom - rcFill->top);
 	}
 }
 
@@ -621,7 +621,7 @@ void CSingleLineEditCtrl::getTextExtentPoint( LPCWSTR text, int cbText, LPSIZE s
 	sz->cx = m_container->text_width(str_utf8, (litehtml::uint_ptr) m_hFont);
 	delete str_utf8;
 #endif
-	sz->cy = ceil(((Gdiplus::Font*)m_hFont)->GetHeight(0.0f));
+	sz->cy = m_container->line_height(m_container->getHdc(), (litehtml::uint_ptr)m_hFont);
 }
 
 DWORD CSingleLineEditCtrl::ThreadProc()
