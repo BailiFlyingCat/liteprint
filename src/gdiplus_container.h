@@ -91,13 +91,10 @@ public:
 	virtual void output_debug_string(const char* str) = 0;
 	virtual void output_debug_string(const wchar_t* str) = 0;
 
-/* protected:
-	virtual void						draw_ellipse(cairo_t* cr, int x, int y, int width, int height, const litehtml::web_color& color, double line_width);
-	virtual void						fill_ellipse(cairo_t* cr, int x, int y, int width, int height, const litehtml::web_color& color);
-	virtual void						rounded_rectangle( cairo_t* cr, const litehtml::position &pos, const litehtml::border_radiuses &radius );
+protected:
+	virtual void						draw_ellipse(litehtml::uint_ptr hdc, int x, int y, int width, int height, const litehtml::web_color& color, double line_width);
+	virtual void						fill_ellipse(litehtml::uint_ptr hdc, int x, int y, int width, int height, const litehtml::web_color& color);
 
-	void								set_color(cairo_t* cr, litehtml::web_color color)	{ cairo_set_source_rgba(cr, color.red / 255.0, color.green / 255.0, color.blue / 255.0, color.alpha / 255.0); }
-*/
 private:
 	void								apply_clip(litehtml::uint_ptr hdc);
 	void								release_clip(litehtml::uint_ptr hdc);

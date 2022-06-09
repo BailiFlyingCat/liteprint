@@ -224,7 +224,37 @@ int gdiplus_container::get_default_font_size() const
 
 void gdiplus_container::draw_list_marker( litehtml::uint_ptr hdc, const litehtml::list_marker& marker )
 {
+	apply_clip(hdc);
 
+	int top_margin = marker.pos.height / 3;
+	if (top_margin < 4)
+		top_margin = 0;
+
+	int draw_x = marker.pos.x;
+	int draw_y = marker.pos.y + top_margin;
+	int draw_width = marker.pos.height - top_margin * 2;
+	int draw_height = marker.pos.height - top_margin * 2;
+
+	switch (marker.marker_type)
+	{
+	    case litehtml::list_style_type_circle:
+        {
+		    draw_ellipse(hdc, draw_x, draw_y, draw_width, draw_height, marker.color, 1);
+	    }
+	    break;
+	    case litehtml::list_style_type_disc:
+	    {
+		    fill_ellipse(hdc, draw_x, draw_y, draw_width, draw_height, marker.color);
+	    }
+	    break;
+	    case litehtml::list_style_type_square:
+	    {
+		    fill_rect(hdc, draw_x, draw_y, draw_width, draw_height, marker.color);
+	    }
+	    break;
+	}
+
+	release_clip(hdc);
 }
 
 void gdiplus_container::load_image( const litehtml::tchar_t* src, const litehtml::tchar_t* baseurl, bool redraw_on_ready )
@@ -534,13 +564,35 @@ void gdiplus_container::release_clip(litehtml::uint_ptr hdc)
 	graphics->ResetClip();
 }
 
-/* void myGdiplus_container::draw_ellipse(cairo_t* cr, int x, int y, int width, int height, const litehtml::web_color& color, double line_width)
+void gdiplus_container::draw_ellipse(litehtml::uint_ptr hdc, int x, int y, int width, int height, const litehtml::web_color& color, double line_width)
 {
+	if (!hdc)
+	{
+		return;
+	}
+	Gdiplus::Graphics* graphics = (Gdiplus::Graphics*)hdc;
+
+	graphics->SetCompositingQuality(Gdiplus::CompositingQualityHighQuality);
+	graphics->SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+
+	Gdiplus::Pen pen(Gdiplus::Color(color.alpha, color.red, color.green, color.blue));
+	graphics->DrawEllipse(&pen, x, y, width, height);
 }
 
-void myGdiplus_container::fill_ellipse( cairo_t* cr, int x, int y, int width, int height, const litehtml::web_color& color )
+void gdiplus_container::fill_ellipse(litehtml::uint_ptr hdc, int x, int y, int width, int height, const litehtml::web_color& color )
 {
-} */
+	if (!hdc)
+	{
+		return;
+	}
+	Gdiplus::Graphics* graphics = (Gdiplus::Graphics*)hdc;
+
+	graphics->SetCompositingQuality(Gdiplus::CompositingQualityHighQuality);
+	graphics->SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+
+	Gdiplus::SolidBrush brush(Gdiplus::Color(color.alpha, color.red, color.green, color.blue));
+	graphics->FillEllipse(&brush, x, y, width, height);
+}
 
 void gdiplus_container::clear_images()
 {
