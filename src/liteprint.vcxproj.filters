@@ -172,6 +172,9 @@
     <Image Include="html\toolbar-bg.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="html\buttons.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="liteprint.rc">

@@ -420,6 +420,7 @@
     <Image Include="html\back-disabled.png" />
     <Image Include="html\back-hover.png" />
     <Image Include="html\back-normal.png" />
+    <Image Include="html\buttons.png" />
     <Image Include="html\forward-active.png" />
     <Image Include="html\forward-disabled.png" />
     <Image Include="html\forward-hover.png" />
