@@ -28,7 +28,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		} else
 		{
 			// wnd.open(L"http://www.litehtml.com/");
-			wnd.open(L"D:\\Files\\TEMP\\Vue\\demo\\public\\test.html");
 		}
 
 		MSG msg;
