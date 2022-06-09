@@ -18,15 +18,6 @@
 #include <winhttp.h>
 #include <algorithm>
 
-// include TxDIB project
-#include <TxDIB.h>
-#pragma comment(lib, "txdib.lib")
-
-// include CAIRO project
-#include <cairo.h>
-#include <cairo-win32.h>
-#pragma comment(lib, "cairo.lib")
-
 // include SIMPLEDIB project
 #include <dib.h>
 #pragma comment(lib, "simpledib.lib")

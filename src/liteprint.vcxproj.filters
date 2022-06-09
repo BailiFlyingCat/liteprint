@@ -18,12 +18,6 @@
     <ClCompile Include="BrowserWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\libs\litehtml\containers\cairo\cairo_container.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\libs\litehtml\containers\cairo\cairo_font.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HtmlViewWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -54,15 +48,12 @@
     <ClCompile Include="mongoose\mongoose.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gdiplus_container.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrowserWnd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libs\litehtml\containers\cairo\cairo_container.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\libs\litehtml\containers\cairo\cairo_font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="globals.h">
@@ -105,6 +96,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="mongoose\mongoose.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiplus_container.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

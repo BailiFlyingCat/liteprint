@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "web_page.h"
 #include "HtmlViewWnd.h"
+#include <mlang.h>
 
 
 web_page::web_page(CHTMLViewWnd* parent)
@@ -191,9 +192,9 @@ void web_page::set_cursor( const litehtml::tchar_t* cursor )
 #endif
 }
 
-cairo_container::image_ptr web_page::get_image(LPCWSTR url, bool redraw_on_ready)
+litehtml::uint_ptr web_page::get_image(LPCWSTR url, bool redraw_on_ready)
 {
-	cairo_container::image_ptr img;
+	litehtml::uint_ptr img = NULL;
 	if(PathIsURL(url))
 	{
 		if(redraw_on_ready)
@@ -205,10 +206,11 @@ cairo_container::image_ptr web_page::get_image(LPCWSTR url, bool redraw_on_ready
 		}
 	} else
 	{
-		img = cairo_container::image_ptr(new CTxDIB);
-		if(!img->load(url))
+		Gdiplus::Bitmap* bitmap = new Gdiplus::Bitmap(url);
+		img = (litehtml::uint_ptr)bitmap;
+		if(!img)
 		{
-			img = nullptr;
+			img = NULL;
 		}
 	}
 	return img;
@@ -313,11 +315,13 @@ void web_page::on_document_error(DWORD dwError, LPCWSTR errMsg)
 
 void web_page::on_image_loaded( LPCWSTR file, LPCWSTR url, bool redraw_only )
 {
-	cairo_container::image_ptr img = cairo_container::image_ptr(new CTxDIB);
-	if(img->load(file))
+	litehtml::uint_ptr img = 0;
+	Gdiplus::Bitmap* bitmap = new Gdiplus::Bitmap(file);
+	if (bitmap)
 	{
-		cairo_container::add_image(std::wstring(url), img);
-		if(m_doc)
+		litehtml::uint_ptr img = (litehtml::uint_ptr)bitmap;
+		gdiplus_container::add_image(std::wstring(url), img);
+		if (m_doc)
 		{
 			m_parent->image_loaded(redraw_only);
 		}

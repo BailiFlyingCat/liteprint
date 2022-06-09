@@ -1,7 +1,6 @@
 #pragma once
 #include "TxThread.h"
-#include "../containers/cairo/cairo_container.h"
-#include "../containers/cairo/cairo_font.h"
+#include "gdiplus_container.h"
 
 
 #define WM_UPDATE_CONTROL	(WM_USER + 2001)
@@ -11,10 +10,10 @@
 class CSingleLineEditCtrl : public CTxThread
 {
 private:
-	cairo_container*	m_container;
+	gdiplus_container*	m_container;
 	HWND				m_parent;
 	std::wstring		m_text;
-	cairo_font*			m_hFont;
+	litehtml::uint_ptr	m_hFont;
 	litehtml::web_color	m_textColor;
 	int					m_lineHeight;
 	int					m_caretPos;
@@ -31,7 +30,7 @@ private:
 	RECT				m_rcText;
 
 public:
-	CSingleLineEditCtrl(HWND parent, cairo_container* container);
+	CSingleLineEditCtrl(HWND parent, gdiplus_container* container);
 	virtual ~CSingleLineEditCtrl(void);
 
 	BOOL	OnKeyDown(WPARAM wParam, LPARAM lParam);
@@ -44,8 +43,8 @@ public:
 	void	setRect(LPRECT rcText);
 	void	setText(LPCWSTR text);
 	LPCWSTR getText()	{ return m_text.c_str(); }
-	void	setFont(cairo_font* font, litehtml::web_color& color);
-	void	draw(cairo_t* cr);
+	void	setFont(litehtml::uint_ptr font, litehtml::web_color& color);
+	void	draw(litehtml::uint_ptr cr);
 	void	setSelection(int start, int end);
 	void	replaceSel(LPCWSTR text);
 	void	hideCaret();
@@ -64,10 +63,9 @@ private:
 	void	createCaret();
 	void	destroyCaret();
 	void	setCaretPos(int pos);
-	void	fillSelRect(cairo_t* cr, LPRECT rcFill);
+	void	fillSelRect(litehtml::uint_ptr cr, LPRECT rcFill);
 	int		getCaretPosXY(int x, int y);
 
-	void	drawText(cairo_t* cr, LPCWSTR text, int cbText, LPRECT rcText, litehtml::web_color textColor);
+	void	drawText(litehtml::uint_ptr cr, LPCWSTR text, int cbText, LPRECT rcText, litehtml::web_color textColor);
 	void	getTextExtentPoint(LPCWSTR text, int cbText, LPSIZE sz);
-	void	set_color(cairo_t* cr, litehtml::web_color color)	{ cairo_set_source_rgba(cr, color.red / 255.0, color.green / 255.0, color.blue / 255.0, color.alpha / 255.0); }
 };

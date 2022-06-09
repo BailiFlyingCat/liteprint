@@ -17,6 +17,7 @@ CToolbarWnd::CToolbarWnd( HINSTANCE hInst, CBrowserWnd* parent )
 	m_parent	= parent;
 	m_hInst		= hInst;
 	m_hWnd		= NULL;
+	m_graphics  = nullptr;
 
 	WNDCLASS wc;
 	if(!GetClassInfo(m_hInst, TOOLBARWND_CLASS, &wc))
@@ -40,6 +41,12 @@ CToolbarWnd::CToolbarWnd( HINSTANCE hInst, CBrowserWnd* parent )
 }
 CToolbarWnd::~CToolbarWnd(void)
 {
+	if (m_graphics)
+	{
+		delete m_graphics;
+		m_graphics = nullptr;
+	}
+
 	if (m_omnibox)
 	{
 		m_omnibox = nullptr;
@@ -232,23 +239,18 @@ void CToolbarWnd::OnPaint( simpledib::dib* dib, LPRECT rcDraw )
 {
 	if(m_doc)
 	{
-		cairo_surface_t* surface = cairo_image_surface_create_for_data((unsigned char*) dib->bits(), CAIRO_FORMAT_ARGB32, dib->width(), dib->height(), dib->width() * 4);
-		cairo_t* cr = cairo_create(surface);
-
+		HDC hdc = dib->hdc();
 		POINT pt;
-		GetWindowOrgEx(dib->hdc(), &pt);
-		if(pt.x != 0 || pt.y != 0)
+		GetWindowOrgEx(hdc, &pt);
+		if (pt.x != 0 || pt.y != 0)
 		{
-			cairo_translate(cr, -pt.x, -pt.y);
+			SetWindowOrgEx(hdc, pt.x, pt.y, NULL);
 		}
-		cairo_set_source_rgb(cr, 1, 1, 1);
-		cairo_paint(cr);
+		m_graphics = new Gdiplus::Graphics(hdc);
+		m_graphics->Clear(Gdiplus::Color::White);
 
 		litehtml::position clip(rcDraw->left, rcDraw->top, rcDraw->right - rcDraw->left, rcDraw->bottom - rcDraw->top);
-		m_doc->draw((litehtml::uint_ptr) cr, 0, 0, &clip);
-
-		cairo_destroy(cr);
-		cairo_surface_destroy(surface);
+		m_doc->draw((litehtml::uint_ptr)(m_graphics), 0, 0, &clip);
 	}
 }
 
@@ -314,12 +316,35 @@ void CToolbarWnd::make_url( LPCWSTR url, LPCWSTR basepath, std::wstring& out )
 	out = url;
 }
 
-cairo_container::image_ptr CToolbarWnd::get_image(LPCWSTR url, bool redraw_on_ready)
+litehtml::uint_ptr CToolbarWnd::get_image(LPCWSTR url, bool redraw_on_ready)
 {
-	cairo_container::image_ptr img = cairo_container::image_ptr(new CTxDIB);
-	if(!img->load(FindResource(m_hInst, url, RT_HTML), m_hInst))
+	HRSRC       hRes        = FindResource(m_hInst, url, RT_HTML);
+	DWORD       dwSize      = SizeofResource(m_hInst, hRes);
+	HGLOBAL     hMem        = LoadResource(m_hInst, hRes);
+	const void* lpData      = LockResource(hMem);
+	HGLOBAL     hResBuffer  = GlobalAlloc(GMEM_MOVEABLE, dwSize);
+	void*       lpResBuffer = GlobalLock(hResBuffer);
+	CopyMemory(lpResBuffer, lpData, dwSize);
+
+	IStream* pStream = NULL;
+	litehtml::uint_ptr img = NULL;
+	if (CreateStreamOnHGlobal(hResBuffer, FALSE, &pStream) == S_OK)
 	{
-		img = nullptr;
+		Gdiplus::Bitmap* bitmap = Gdiplus::Bitmap::FromStream(pStream);
+
+		pStream->Release();
+		GlobalUnlock(hResBuffer);
+		GlobalFree(hResBuffer);
+
+		Gdiplus::Status result = bitmap->GetLastStatus();
+		if (result == Gdiplus::Ok)
+		{
+			img = (litehtml::uint_ptr)bitmap;
+			if (!img)
+			{
+				img = NULL;
+			}
+		}
 	}
 
 	return img;
@@ -604,4 +629,23 @@ void CToolbarWnd::get_client_rect( litehtml::position& client ) const
 	client.y		= rcClient.top;
 	client.width	= rcClient.right - rcClient.left;
 	client.height	= rcClient.bottom - rcClient.top;
+}
+
+void CToolbarWnd::output_debug_string(int value)
+{
+	char szBuff[1024];
+	memset(szBuff, 0, 1024);
+	char* str = "%d";
+	sprintf(szBuff, str, value);
+	OutputDebugStringA(szBuff);
+}
+
+void CToolbarWnd::output_debug_string(const char* str)
+{
+	OutputDebugStringA(str);
+}
+
+void CToolbarWnd::output_debug_string(const wchar_t* str)
+{
+	OutputDebugStringW(str);
 }

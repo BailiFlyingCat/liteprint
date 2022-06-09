@@ -1,20 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32413.511
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "liteprint", "src\liteprint.vcxproj", "{54AB6A6E-4B83-4B33-965F-DB8455C8C292}"
 	ProjectSection(ProjectDependencies) = postProject
 		{23740D61-AB4D-4F6B-8E5B-64D42A19173C} = {23740D61-AB4D-4F6B-8E5B-64D42A19173C}
 		{5EEE68E7-3CB0-4ADB-AF72-4C0BB01F0B18} = {5EEE68E7-3CB0-4ADB-AF72-4C0BB01F0B18}
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9} = {E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "litehtml", "libs\litehtml\litehtml.vcxproj", "{5EEE68E7-3CB0-4ADB-AF72-4C0BB01F0B18}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "simpledib", "libs\simpledib\simpledib.vcxproj", "{23740D61-AB4D-4F6B-8E5B-64D42A19173C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TxDIB", "libs\txdib\TxDIBlib.vcxproj", "{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B243BD14-9CEC-415C-9C14-EBC27D36FBD0}"
 	ProjectSection(SolutionItems) = preProject
@@ -82,24 +79,11 @@ Global
 		{23740D61-AB4D-4F6B-8E5B-64D42A19173C}.Release-UTF8|Win32.Build.0 = Release|Win32
 		{23740D61-AB4D-4F6B-8E5B-64D42A19173C}.Release-UTF8|x64.ActiveCfg = Release|x64
 		{23740D61-AB4D-4F6B-8E5B-64D42A19173C}.Release-UTF8|x64.Build.0 = Release|x64
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Debug|Win32.Build.0 = Debug|Win32
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Debug|x64.ActiveCfg = Debug|x64
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Debug|x64.Build.0 = Debug|x64
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Debug-UTF8|Win32.ActiveCfg = Debug|Win32
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Debug-UTF8|Win32.Build.0 = Debug|Win32
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Debug-UTF8|x64.ActiveCfg = Debug|x64
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Debug-UTF8|x64.Build.0 = Debug|x64
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Release|Win32.ActiveCfg = Release|Win32
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Release|Win32.Build.0 = Release|Win32
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Release|x64.ActiveCfg = Release|x64
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Release|x64.Build.0 = Release|x64
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Release-UTF8|Win32.ActiveCfg = Release|Win32
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Release-UTF8|Win32.Build.0 = Release|Win32
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Release-UTF8|x64.ActiveCfg = Release|x64
-		{E94EC1FA-DBB9-4D02-B190-F549BD3E1EC9}.Release-UTF8|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {26E7671F-AF9A-4D74-9A09-4171E8543213}
 	EndGlobalSection
 EndGlobal

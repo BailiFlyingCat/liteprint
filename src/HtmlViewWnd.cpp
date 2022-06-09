@@ -22,6 +22,7 @@ CHTMLViewWnd::CHTMLViewWnd(HINSTANCE hInst, litehtml::context* ctx, CBrowserWnd*
 	m_viewHeight    = 0;
 	m_htmlHeight    = 0;
 	m_printHdc      = nullptr;
+	m_graphics      = nullptr;
 
 	InitializeCriticalSection(&m_sync);
 
@@ -46,6 +47,12 @@ CHTMLViewWnd::CHTMLViewWnd(HINSTANCE hInst, litehtml::context* ctx, CBrowserWnd*
 
 CHTMLViewWnd::~CHTMLViewWnd(void)
 {
+	if (m_graphics)
+	{
+		delete m_graphics;
+		m_graphics = nullptr;
+	}
+
 	DeleteCriticalSection(&m_sync);
 }
 
@@ -166,14 +173,11 @@ void CHTMLViewWnd::draw(simpledib::dib* dib, LPRECT rcDraw, double scale)
 {
 	lock();
 
-	cairo_surface_t* surface = cairo_image_surface_create_for_data((unsigned char*) dib->bits(), CAIRO_FORMAT_ARGB32, dib->width(), dib->height(), dib->width() * 4);
-	cairo_t* cr = cairo_create(surface);
-
-	cairo_rectangle(cr, rcDraw->left, rcDraw->top, rcDraw->right - rcDraw->left, rcDraw->bottom - rcDraw->top);
-	cairo_clip(cr);
-
-	cairo_set_source_rgb(cr, 1, 1, 1);
-	cairo_paint(cr);
+	HDC hdc = dib->hdc();
+	m_graphics = new Gdiplus::Graphics(hdc);
+	m_graphics->Clear(Gdiplus::Color::White);
+	m_graphics->SetPageUnit(Gdiplus::UnitPixel);
+	m_graphics->SetPageScale(scale);
 
 	web_page* page = get_page(false);
 
@@ -181,13 +185,10 @@ void CHTMLViewWnd::draw(simpledib::dib* dib, LPRECT rcDraw, double scale)
 	{
 
 		litehtml::position clip(rcDraw->left, rcDraw->top, rcDraw->right - rcDraw->left, rcDraw->bottom - rcDraw->top);
-		page->m_doc->draw((litehtml::uint_ptr) cr, -m_left, -m_top, &clip);
+		page->m_doc->draw((litehtml::uint_ptr)m_graphics, -m_left, -m_top, &clip);
 
 		page->release();
 	}
-
-	cairo_destroy(cr);
-	cairo_surface_destroy(surface);
 
 	unlock();
 }
@@ -362,9 +363,9 @@ void CHTMLViewWnd::update_scroll()
 		return;
 	}
 
-	if(m_max_top > 0)
+	/* if (m_max_top > 0)
 	{
-		// ShowScrollBar(m_hWnd, SB_VERT, TRUE);
+		ShowScrollBar(m_hWnd, SB_VERT, TRUE);
 
 		RECT rcClient;
 		GetClientRect(m_hWnd, &rcClient);
@@ -376,11 +377,11 @@ void CHTMLViewWnd::update_scroll()
 		si.nMax		= m_max_top + (rcClient.bottom - rcClient.top);
 		si.nPos		= m_top;
 		si.nPage	= rcClient.bottom - rcClient.top;
-		// SetScrollInfo(m_hWnd, SB_VERT, &si, TRUE);
+		SetScrollInfo(m_hWnd, SB_VERT, &si, TRUE);
 	} else
 	{
-		// ShowScrollBar(m_hWnd, SB_VERT, FALSE);
-	}
+		ShowScrollBar(m_hWnd, SB_VERT, FALSE);
+	} */
 
 	if(m_max_left > 0)
 	{
@@ -928,115 +929,16 @@ void CHTMLViewWnd::create_dib( int width, int height )
 
 void CHTMLViewWnd::scroll_to( int new_left, int new_top )
 {
-	litehtml::position client;
-	get_client_rect(client);
-
-	bool need_redraw = false;
-	if(new_top != m_top)
-	{
-		if(std::abs(new_top - m_top) < client.height - client.height / 4 )
-		{
-			RECT rcRedraw;
-			if(new_top > m_top)
-			{
-				int lines_count		= new_top - m_top;
-				int rgba_to_scroll	= m_dib.width() * lines_count;
-				int rgba_total		= m_dib.width() * client.height;
-
-				memmove( m_dib.bits(), m_dib.bits() + rgba_to_scroll, (rgba_total - rgba_to_scroll) * sizeof(RGBQUAD) );
-				rcRedraw.left	= client.left();
-				rcRedraw.right	= client.right();
-				rcRedraw.top	= client.height - lines_count;
-				rcRedraw.bottom	= client.height;
-			} else
-			{
-				int lines_count		= m_top - new_top;
-				int rgba_to_scroll	= m_dib.width() * lines_count;
-				int rgba_total		= m_dib.width() * client.height;
-
-				memmove( m_dib.bits() + rgba_to_scroll, m_dib.bits(), (rgba_total - rgba_to_scroll) * sizeof(RGBQUAD) );
-				rcRedraw.left	= client.left();
-				rcRedraw.right	= client.right();
-				rcRedraw.top	= client.top();
-				rcRedraw.bottom	= lines_count;
-			}
-
-			int old_top = m_top;
-			m_top  = new_top;
-			draw(&m_dib, &rcRedraw);
-
-			litehtml::position::vector fixed_boxes;
-
-			lock();
-			web_page* page = get_page(false);
-			if(page)
-			{
-				page->m_doc->get_fixed_boxes(fixed_boxes);
-				page->release();
-			}
-			unlock();
-
-			if(!fixed_boxes.empty())
-			{
-				RECT rcFixed;
-				RECT rcClient;
-				rcClient.left	= client.left();
-				rcClient.right	= client.right();
-				rcClient.top	= client.top();
-				rcClient.bottom	= client.bottom();
-
-				for(litehtml::position::vector::iterator iter = fixed_boxes.begin(); iter != fixed_boxes.end(); iter++)
-				{
-					rcRedraw.left	= iter->left();
-					rcRedraw.right	= iter->right();
-					rcRedraw.top	= iter->top();
-					rcRedraw.bottom	= iter->bottom();
-					if(IntersectRect(&rcFixed, &rcRedraw, &rcClient))
-					{
-						draw(&m_dib, &rcFixed);
-					}
-
-					rcRedraw.left	= iter->left();
-					rcRedraw.right	= iter->right();
-					rcRedraw.top	= iter->top() + (old_top - m_top);
-					rcRedraw.bottom	= iter->bottom() + (old_top - m_top);
-
-					if(IntersectRect(&rcFixed, &rcRedraw, &rcClient))
-					{
-						draw(&m_dib, &rcFixed);
-					}
-				}
-			}
-
-			HDC hdc = GetDC(m_hWnd);
-
-			BitBlt(hdc, client.left(), client.top(),
-				client.width,
-				client.height, m_dib, 0, 0, SRCCOPY);
-
-			ReleaseDC(m_hWnd, hdc);
-
-		} else
-		{
-			need_redraw = true;
-		}
-
-		m_top  = new_top;
-		SetScrollPos(m_hWnd, SB_VERT, m_top, TRUE);
-	}
-
-
+	// 设置水平滚动条
 	if(new_left != m_left)
 	{
-		m_left  = new_left;
+		m_left = new_left;
 		SetScrollPos(m_hWnd, SB_HORZ, m_left, TRUE);
-		need_redraw = true;
 	}
 
-	if(need_redraw)
-	{
-		redraw(NULL, TRUE);
-	}
+	// 直接重绘整个窗口区域
+	m_top = new_top;
+	redraw(NULL, TRUE);
 }
 
 void CHTMLViewWnd::page_loaded(bool isdraw)

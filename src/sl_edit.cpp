@@ -2,7 +2,7 @@
 #include "sl_edit.h"
 #include "ctrl_container.h"
 
-CSingleLineEditCtrl::CSingleLineEditCtrl(HWND parent, cairo_container* container) : m_textColor(0, 0, 0)
+CSingleLineEditCtrl::CSingleLineEditCtrl(HWND parent, gdiplus_container* container) : m_textColor(0, 0, 0)
 {
 	m_parent			= parent;
 	m_container			= container;
@@ -319,7 +319,7 @@ void CSingleLineEditCtrl::setRect(LPRECT rcText)
 	//createCaret();
 }
 
-void CSingleLineEditCtrl::draw(cairo_t* cr)
+void CSingleLineEditCtrl::draw(litehtml::uint_ptr cr)
 {
 	int selStart	= min(m_selStart, m_selEnd);
 	int selEnd		= max(m_selStart, m_selEnd);
@@ -391,25 +391,21 @@ void CSingleLineEditCtrl::draw(cairo_t* cr)
 
 	if(m_showCaret && m_caretIsCreated)
 	{
-		cairo_save(cr);
-
 		int caretWidth = GetSystemMetrics(SM_CXBORDER);
 		int caretHeight = m_lineHeight;
 		int top = m_rcText.top + (m_rcText.bottom - rcText.top) / 2 - caretHeight / 2;
 
-		cairo_set_source_rgba(cr, m_textColor.red / 255.0, m_textColor.green / 255.0, m_textColor.blue / 255.0, m_textColor.alpha / 255.0);
-		cairo_rectangle(cr, m_rcText.left + m_caretX, top, caretWidth, caretHeight);
-		cairo_fill(cr);
-
-		cairo_restore(cr);
+		Gdiplus::Graphics graphics((HDC)cr);
+		Gdiplus::SolidBrush brush(Gdiplus::Color(m_textColor.alpha, m_textColor.red, m_textColor.green, m_textColor.blue));
+		graphics.FillRectangle(&brush, m_rcText.left + m_caretX, top, caretWidth, caretHeight);
 	}
 }
 
-void CSingleLineEditCtrl::setFont(cairo_font* font, litehtml::web_color& color)
+void CSingleLineEditCtrl::setFont(litehtml::uint_ptr font, litehtml::web_color& color)
 {
-	m_hFont = font;
+	m_hFont     = font;
 	m_textColor = color;
-	m_lineHeight = font->metrics().height;
+	m_lineHeight = ceil(((Gdiplus::Font*)font)->GetHeight(0.0f));
 }
 
 void CSingleLineEditCtrl::UpdateCarret()
@@ -513,18 +509,14 @@ void CSingleLineEditCtrl::setCaretPos( int pos )
 	UpdateCarret();
 }
 
-void CSingleLineEditCtrl::fillSelRect(cairo_t* cr, LPRECT rcFill)
+void CSingleLineEditCtrl::fillSelRect(litehtml::uint_ptr cr, LPRECT rcFill)
 {
-	cairo_save(cr);
-
 	COLORREF clr = GetSysColor(COLOR_HIGHLIGHT);
 	litehtml::web_color color(GetRValue(clr), GetGValue(clr), GetBValue(clr));
 
-	cairo_set_source_rgba(cr, color.red / 255.0, color.green / 255.0, color.blue / 255.0, color.alpha / 255.0);
-	cairo_rectangle(cr, rcFill->left, rcFill->top, rcFill->right - rcFill->left, rcFill->bottom - rcFill->top);
-	cairo_fill(cr);
-
-	cairo_restore(cr);
+	Gdiplus::Graphics graphics((HDC)cr);
+	Gdiplus::SolidBrush brush(Gdiplus::Color(color.alpha, color.red, color.green, color.blue));
+	graphics.FillRectangle(&brush, rcFill->left, rcFill->top, rcFill->right - rcFill->left, rcFill->bottom - rcFill->top);
 }
 
 int CSingleLineEditCtrl::getCaretPosXY( int x, int y )
@@ -578,7 +570,7 @@ void CSingleLineEditCtrl::setText( LPCWSTR text )
 	UpdateControl();
 }
 
-void CSingleLineEditCtrl::drawText(cairo_t* cr, LPCWSTR text, int cbText, LPRECT rcText, litehtml::web_color textColor)
+void CSingleLineEditCtrl::drawText(litehtml::uint_ptr cr, LPCWSTR text, int cbText, LPRECT rcText, litehtml::web_color textColor)
 {
 	std::wstring str;
 	if (cbText < 0)
@@ -597,7 +589,7 @@ void CSingleLineEditCtrl::drawText(cairo_t* cr, LPCWSTR text, int cbText, LPRECT
 	pos.height = rcText->bottom - rcText->top;
 
 #ifndef LITEHTML_UTF8
-	m_container->draw_text((litehtml::uint_ptr) cr, str.c_str(), (litehtml::uint_ptr) m_hFont, textColor, pos);
+	m_container->draw_text(cr, str.c_str(), (litehtml::uint_ptr) m_hFont, textColor, pos);
 #else
 	LPSTR str_utf8 = cairo_font::wchar_to_utf8(str.c_str());
 	m_container->draw_text((litehtml::uint_ptr) cr, str_utf8, (litehtml::uint_ptr) m_hFont, textColor, pos);
@@ -623,7 +615,7 @@ void CSingleLineEditCtrl::getTextExtentPoint( LPCWSTR text, int cbText, LPSIZE s
 	sz->cx = m_container->text_width(str_utf8, (litehtml::uint_ptr) m_hFont);
 	delete str_utf8;
 #endif
-	sz->cy = m_hFont->metrics().height;
+	sz->cy = ceil(((Gdiplus::Font*)m_hFont)->GetHeight(0.0f));
 }
 
 DWORD CSingleLineEditCtrl::ThreadProc()

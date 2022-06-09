@@ -1,14 +1,10 @@
 #include "globals.h"
 #include "liteprint.h"
 #include "BrowserWnd.h"
-#include "..\containers\cairo\cairo_font.h"
 
 #pragma comment( lib, "gdiplus.lib" )
-#pragma comment( lib, "shlwapi.lib" )
 
 using namespace Gdiplus;
-
-CRITICAL_SECTION cairo_font::m_sync;
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
@@ -17,8 +13,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 {
 	CoInitialize(NULL);
 	InitCommonControls();
-
-	InitializeCriticalSectionAndSpinCount(&cairo_font::m_sync, 1000);
 
 	GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplusToken;
@@ -33,7 +27,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 			wnd.open(lpCmdLine);
 		} else
 		{
-			wnd.open(L"http://www.dmoz.org/");
+			// wnd.open(L"http://www.litehtml.com/");
+			wnd.open(L"D:\\Files\\TEMP\\Vue\\demo\\public\\test.html");
 		}
 
 		MSG msg;

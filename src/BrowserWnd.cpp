@@ -164,9 +164,9 @@ LRESULT CALLBACK CBrowserWnd::WndProc( HWND hWnd, UINT uMessage, WPARAM wParam, 
 
 				HMENU hMenu;
 				hMenu = CreatePopupMenu();
-				AppendMenu(hMenu, MF_STRING, IDM_ABOUT, TEXT("¹ØÓÚ"));
+				AppendMenu(hMenu, MF_STRING, IDM_ABOUT, TEXT("å…³äº"));
 				AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
-				AppendMenu(hMenu, MF_STRING, IDM_QUIT, TEXT("ÍË³ö"));
+				AppendMenu(hMenu, MF_STRING, IDM_QUIT, TEXT("é€€å‡º"));
 				TrackPopupMenu(hMenu, TPM_RIGHTBUTTON, pt.x, pt.y, NULL, pThis->m_hWnd, NULL);
 			}
 		}
@@ -175,7 +175,7 @@ LRESULT CALLBACK CBrowserWnd::WndProc( HWND hWnd, UINT uMessage, WPARAM wParam, 
 			switch (wParam)
 			{
 			case IDM_ABOUT:
-				MessageBox(NULL, TEXT("HTML¾²Ä¬´òÓ¡³ÌĞò"), TEXT("¹ØÓÚ liteprint"), MB_ICONINFORMATION);
+				MessageBox(NULL, TEXT("HTMLé™é»˜æ‰“å°ç¨‹åº"), TEXT("å…³äº liteprint"), MB_ICONINFORMATION);
 				break;
 			case IDM_QUIT:
 				PostMessage(pThis->m_hWnd, WM_CLOSE, 0, 0);
@@ -214,7 +214,7 @@ void CBrowserWnd::OnCreate()
 	m_view->set_print(m_printViewWidth, m_printViewHeight, m_printHdc);
 #endif
 
-	// websocket ¼àÌı¶¨Ê±Æ÷
+	// websocket ç›‘å¬å®šæ—¶å™¨
 	SetTimer(m_hWnd, 1, 100, NULL);
 }
 
@@ -259,7 +259,7 @@ void CBrowserWnd::create()
 	UpdateWindow(m_hWnd);
 #endif
 
-	// ´´½¨ÏµÍ³ÍĞÅÌÍ¼±ê²¢³õÊ¼»¯websocket
+	// åˆ›å»ºç³»ç»Ÿæ‰˜ç›˜å›¾æ ‡å¹¶åˆå§‹åŒ–websocket
 	createNotify();
 	initWebSocket();
 }
@@ -332,7 +332,7 @@ void CBrowserWnd::on_page_loaded(int htmlHeight, LPCWSTR url)
 	}
 	else
 	{
-		OutputDebugString(TEXT("´òÓ¡Ê§°Ü...\r\n"));
+		OutputDebugString(TEXT("æ‰“å°å¤±è´¥...\r\n"));
 	}
 #endif
 }
@@ -345,7 +345,7 @@ void CBrowserWnd::createNotify()
 	m_nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 	m_nid.uCallbackMessage = WM_TRAY;
 	m_nid.hIcon = LoadIcon(GetModuleHandle(0), MAKEINTRESOURCE(IDI_SMALL));
-	wcscpy(m_nid.szTip, _T("HTML¾²Ä¬´òÓ¡³ÌĞò"));
+	wcscpy(m_nid.szTip, _T("HTMLé™é»˜æ‰“å°ç¨‹åº"));
 	Shell_NotifyIcon(NIM_ADD, &m_nid);
 }
 
@@ -405,7 +405,7 @@ void CBrowserWnd::initDefaultPrinter()
 		GetDefaultPrinter(szPrinter, &length);
 		if (length)
 		{
-			OutputDebugString(TEXT("Ä¬ÈÏ´òÓ¡»ú: "));
+			OutputDebugString(TEXT("é»˜è®¤æ‰“å°æœº: "));
 			OutputDebugString(szPrinter);
 			OutputDebugStringA("\n");
 

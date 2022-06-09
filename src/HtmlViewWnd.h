@@ -30,6 +30,7 @@ class CHTMLViewWnd
 	int							m_viewHeight;
 	int							m_htmlHeight;
 	HDC							m_printHdc;
+	Gdiplus::Graphics*			m_graphics;
 public:
 	CHTMLViewWnd(HINSTANCE	hInst, litehtml::context* ctx, CBrowserWnd* parent);
 	virtual ~CHTMLViewWnd(void);

@@ -1,5 +1,5 @@
 #pragma once
-#include "..\containers\cairo\cairo_container.h"
+#include "gdiplus_container.h"
 #include "dib.h"
 #include "el_omnibox.h"
 
@@ -7,7 +7,7 @@
 
 class CBrowserWnd;
 
-class CToolbarWnd : public cairo_container
+class CToolbarWnd : public gdiplus_container
 {
 	HWND					m_hWnd;
 	HINSTANCE				m_hInst;
@@ -17,6 +17,7 @@ class CToolbarWnd : public cairo_container
 	std::shared_ptr<el_omnibox>	m_omnibox;
 	litehtml::tstring		m_cursor;
 	BOOL					m_inCapture;
+	Gdiplus::Graphics*		m_graphics;
 public:
 	CToolbarWnd(HINSTANCE hInst, CBrowserWnd* parent);
 	virtual ~CToolbarWnd(void);
@@ -36,7 +37,11 @@ public:
 
 	// cairo_container members
 	virtual void			make_url(LPCWSTR url, LPCWSTR basepath, std::wstring& out);
-	virtual cairo_container::image_ptr get_image(LPCWSTR url, bool redraw_on_ready);
+	virtual litehtml::uint_ptr get_image(LPCWSTR url, bool redraw_on_ready);
+
+	virtual void output_debug_string(int value) override;
+	virtual void output_debug_string(const char* str) override;
+	virtual void output_debug_string(const wchar_t* str) override;
 
 	// litehtml::document_container members
 	virtual	void	set_caption(const litehtml::tchar_t* caption);

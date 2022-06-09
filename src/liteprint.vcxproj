@@ -159,7 +159,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../libs/litehtml/include;../libs/litehtml/src;../libs/cairo/include;../libs/txdib;../libs/simpledib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../libs/litehtml/include;../libs/litehtml/src;../libs/txdib;../libs/simpledib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;HTML_VIEW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -169,7 +169,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>..\libs\cairo\lib\x86;..\libs\freeimage\32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\libs\freeimage\32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -381,10 +381,9 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\libs\litehtml\containers\cairo\cairo_container.cpp" />
-    <ClCompile Include="..\libs\litehtml\containers\cairo\cairo_font.cpp" />
     <ClCompile Include="BrowserWnd.cpp" />
     <ClCompile Include="el_omnibox.cpp" />
+    <ClCompile Include="gdiplus_container.cpp" />
     <ClCompile Include="HtmlViewWnd.cpp" />
     <ClCompile Include="liteprint.cpp" />
     <ClCompile Include="mongoose\mongoose.c" />
@@ -396,11 +395,10 @@
     <ClCompile Include="web_page.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\libs\litehtml\containers\cairo\cairo_container.h" />
-    <ClInclude Include="..\libs\litehtml\containers\cairo\cairo_font.h" />
     <ClInclude Include="BrowserWnd.h" />
     <ClInclude Include="ctrl_container.h" />
     <ClInclude Include="el_omnibox.h" />
+    <ClInclude Include="gdiplus_container.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="HtmlViewWnd.h" />
     <ClInclude Include="liteprint.h" />
@@ -453,10 +451,6 @@
     </ProjectReference>
     <ProjectReference Include="..\libs\simpledib\simpledib.vcxproj">
       <Project>{23740d61-ab4d-4f6b-8e5b-64d42a19173c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\libs\txdib\TxDIBlib.vcxproj">
-      <Project>{e94ec1fa-dbb9-4d02-b190-f549bd3e1ec9}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
