@@ -168,19 +168,6 @@ int mygdiplus_container::text_width( const litehtml::tchar_t* text, litehtml::ui
 		ret = ceil(rcBound.Width);
 	}
 
-	/* output_debug_string("text_width->");
-	if (!wcscmp(text, _t(" ")))
-	{
-		output_debug_string(_t("¿Õ¸ñ"));
-	}
-	else
-	{
-		output_debug_string(text);
-	}	
-	output_debug_string(": ");
-	output_debug_string(ret);
-	output_debug_string("\n"); */
-	
 	return ret;
 }
 
@@ -190,14 +177,6 @@ void mygdiplus_container::draw_text( litehtml::uint_ptr hdc, const litehtml::tch
 	{
 		return;
 	}
-
-	/* output_debug_string("draw_text->");
-	output_debug_string(text);
-	output_debug_string(": ");
-	output_debug_string(pos.x);
-	output_debug_string(",");
-	output_debug_string(pos.y);
-	output_debug_string("\n"); */
 
 	Gdiplus::Graphics*	graphics	= (Gdiplus::Graphics*)hdc;
 	Gdiplus::Font*		font		= (Gdiplus::Font*)hFont;
@@ -342,22 +321,6 @@ void mygdiplus_container::draw_background( litehtml::uint_ptr hdc, const litehtm
 		int img_width  = bgbmp->GetWidth();
 		int img_height = bgbmp->GetHeight();
 
-		/* output_debug_string("draw_background(");
-		output_debug_string(url.c_str());
-		output_debug_string(")-> draw_pos: ");
-		output_debug_string(draw_pos.left());
-		output_debug_string(",");
-		output_debug_string(draw_pos.top());
-		output_debug_string(",");
-		output_debug_string(draw_pos.width);
-		output_debug_string(",");
-		output_debug_string(draw_pos.height);
-		output_debug_string(";");
-		output_debug_string(img_width);
-		output_debug_string(",");
-		output_debug_string(img_height);
-		output_debug_string("\n"); */
-
 		Gdiplus::Graphics* graphics = (Gdiplus::Graphics*)hdc;
 		graphics->SetInterpolationMode(Gdiplus::InterpolationModeNearestNeighbor);
 		graphics->SetPixelOffsetMode(Gdiplus::PixelOffsetModeHalf);
@@ -429,25 +392,6 @@ void mygdiplus_container::draw_borders( litehtml::uint_ptr hdc, const litehtml::
 		return;
 	}
 	Gdiplus::Graphics* graphics = (Gdiplus::Graphics*)hdc;
-
-	/* output_debug_string("draw_borders->draw_pos: ");
-	output_debug_string(draw_pos.left());
-	output_debug_string(",");
-	output_debug_string(borders.left.width);
-	output_debug_string(";");
-	output_debug_string(draw_pos.top());
-	output_debug_string(",");
-	output_debug_string(borders.top.width);
-	output_debug_string(";");
-	output_debug_string(draw_pos.right());
-	output_debug_string(",");
-	output_debug_string(borders.right.width);
-	output_debug_string(";");
-	output_debug_string(draw_pos.bottom());
-	output_debug_string(",");
-	output_debug_string(borders.bottom.width);
-	output_debug_string("\n"); */
-
 
 	apply_clip(hdc);
 
