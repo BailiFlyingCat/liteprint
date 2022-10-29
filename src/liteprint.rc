@@ -118,12 +118,12 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "FileDescription", "liteprint Application"
+            VALUE "FileDescription", "liteprint"
             VALUE "FileVersion", "0, 2, 0, 0"
             VALUE "InternalName", "liteprint"
             VALUE "LegalCopyright", "Copyright (C) 2013"
             VALUE "OriginalFilename", "liteprint.exe"
-            VALUE "ProductName", "liteprint Application"
+            VALUE "ProductName", "liteprint"
             VALUE "ProductVersion", "0, 2, 0, 0"
         END
     END
